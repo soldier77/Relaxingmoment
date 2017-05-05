@@ -1,11 +1,15 @@
 package com.example.player.relaxingmoment;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendRequestAndDisponse();
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Joke joke = jokes.get(position);
+                ClipboardManager text =(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                text.setText(joke.getContent());
+                Toast.makeText(MainActivity.this,"文本内容已复制",Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
     }
